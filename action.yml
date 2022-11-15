@@ -8,12 +8,21 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: echo Hello ${{ inputs.who-to-greet }}.
+    - run: git add .
       shell: bash
-    - id: random-number-generator
-      run: echo "random-number=$(echo $RANDOM)" >> $GITHUB_OUTPUT
+    - run: git branch -M feature-branch
       shell: bash
-    - run: echo "${{ github.action_path }}" >> $GITHUB_PATH
+    - run: git commit -m ${{ inputs.message }}
       shell: bash
-    - run: goodbye.sh
+    - run: git push origin feature-branch
+      shell: bash
+    - run: gh pr create --title ${{ inputs.message }} --body ${{ inputs.message }} 
+      shell: bash
+    - run: sleep 1 
+      shell: bash
+    - run: gh pr merge feature-branch --merge 
+      shell: bash
+    - run: git checkout main
+      shell: bash
+    - run: git branch -D feature-branch || echo 'Feature branch already deleted'
       shell: bash
