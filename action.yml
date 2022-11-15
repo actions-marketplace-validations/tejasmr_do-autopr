@@ -1,5 +1,8 @@
 name: 'Do AutoPR'
 description: 'A composite GitHub action that automatically stages and commits code & creates and approves PRs'
+branding:
+  icon: 'activity'
+  color: 'green'
 inputs:
   message:  # id of input
     description: 'the commit message, the PR title & description'
